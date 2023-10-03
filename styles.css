@@ -1,0 +1,49 @@
+@font-face {
+  font-family: "Futura";
+  src: url("assets/fonts/Futura\ Book/FuturaBook.otf");
+}
+
+.container {
+  text-align: center;
+  font-family: "Futura";
+}
+.centerContainer {
+  margin-left: auto;
+  margin-right: auto;
+}
+.spacer {
+  height: 20px;
+}
+
+th {
+  text-align: left;
+}
+
+body {
+  background-color: 	#5198e0;
+  color: #000000;
+}
+
+.city-name {
+  font-size: 32px;
+  text-align: center; /* Center the text horizontally */
+  vertical-align: middle; /* Center the text vertically */
+  height: 100%; /* Ensure the table cell takes the full height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.weather-table {
+  font-size: 20px;
+  background-color: white;
+}
+
+#cityNameTextField, #submitButton, #toggleUnitsButton {
+  font-family: inherit;
+}
+
+td.incremental-display {
+  opacity: 0; /* Initially, set the opacity to 0 (completely transparent) */
+  transition: opacity 1s; /* Add a 1-second transition effect for opacity */
+}
