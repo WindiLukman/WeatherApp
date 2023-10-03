@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather App</title>
+    <link href="styles.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Weather App</h1>
+      <table class="centerContainer">
+        <tr>
+          <td>
+            <label id="cityLabel" for="cityNameTextField" style="color: black">Enter a city:</label>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <input id="cityNameTextField" type="text" name="cityName" />
+            <input id="submitButton" type="button" value="Submit" onclick="submitAction()"/>
+            <input id="toggleUnitsButton" type="button" value="Switch to Fahrenheit" onclick="toggleUnits()">
+          </td>
+        </tr>
+      </table>
+      <div class="spacer"></div>
+      <table width="40%" class="centerContainer" cellpadding="5px">
+        <tr>
+          <th id="nameField" class="city-name"></th>
+        </tr>
+      </table>
+      <table width="40%" class="centerContainer weather-table" cellpadding="5px" style="font-size: 20px;">
+        <tr>
+          <th>Temperature</th>
+          <td id="temperatureField">0</td>
+        </tr>
+        <tr>
+          <th>Feels Like</th>
+          <td id="feelsLikeField">0</td>
+        </tr>
+        <tr>
+          <th>Humidity</th>
+          <td id="humidityField">0</td>
+        </tr>
+        <tr>
+          <th>Atmospheric Pressure</th>
+          <td id="pressureField">0</td>
+        </tr>
+        <tr>
+          <th>Clouds</th>
+          <td id="cloudField"></td>
+        </tr>
+      </table>
+    </div>
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      // JQuery Syntax
+      const cityElementJquery = $("#cityNameTextField");
+
+      // ES5 function
+      async function submitAction() {
+        const APIKEY = "b41af8b866329b2e7e8ad51adfc0f038";
+        const cityName = cityElementJquery.val();
+        const url = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${APIKEY}&units=metric`;
+        const response = await fetch(url);
+
+        // Response handling - success and error
+        if (response.status === 200) {
+          const weatherData = await response.json();
+          console.log(weatherData);
+          $("#nameField").html(weatherData.name);
+          $("#temperatureField").html(weatherData.main.temp + "°C");
+          $("#feelsLikeField").html(weatherData.main.feels_like + "°C");
+          $("#humidityField").html(weatherData.main.humidity + "%");
+          $("#pressureField").html(weatherData.main.pressure + " hPa");
+          $("#cloudField").html(weatherData.weather[0].description);
+        } else if (response.status === 404) {
+          // City not found handling
+          alert("Invalid City, Please enter a valid city");
+        } else {
+          console.log(response.status);
+        }
+      }
+    </script>
+    <script>
+      let isCelsius = true;
+
+      // Function to toggle between Celsius and Fahrenheit
+      function toggleUnits() {
+        isCelsius = !isCelsius; // Toggle the unit
+
+        // Get the button element
+        const toggleButton = $("#toggleUnitsButton");
+
+        if (isCelsius) {
+          toggleButton.val("Switch to Fahrenheit");
+        } else {
+          toggleButton.val("Switch to Celsius");
+        }
+
+        // Call the function to update the weather data
+        updateWeatherData();
+      }
+
+      // Function to fetch weather data based on the selected unit
+      async function updateWeatherData() {
+        const APIKEY = "b41af8b866329b2e7e8ad51adfc0f038";
+        const cityName = cityElementJquery.val();
+        const units = isCelsius ? "metric" : "imperial";
+
+        const url = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${APIKEY}&units=${units}`;
+        const response = await fetch(url);
+
+        if (response.status === 200) {
+          const weatherData = await response.json();
+          console.log(weatherData);
+
+          $("#nameField").html(weatherData.name);
+          $("#temperatureField").html(weatherData.main.temp + (isCelsius ? "°C" : "°F"));
+          $("#feelsLikeField").html(weatherData.main.feels_like + (isCelsius ? "°C" : "°F"));
+          $("#humidityField").html(weatherData.main.humidity + "%");
+          $("#pressureField").html(weatherData.main.pressure + " hPa");
+          $("#cloudField").html(weatherData.weather[0].description);
+        } else if (response.status === 404) {
+          // City not found handling
+          alert("Invalid City, Please enter a valid city");
+        } else {
+          console.log(response.status);
+        }
+      }
+      updateWeatherData();
+    </script>
+  </body>
+</html>
