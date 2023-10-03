@@ -52,7 +52,7 @@
         </tr>
         <tr>
           <th>Wind Speed</th>
-          <td id="windField"></td>
+          <td id="windField">0</td>
         </tr>
       </table>
     </div>
@@ -81,7 +81,7 @@
           $("#feelsLikeField").html(weatherData.main.feels_like + "°C");
           $("#humidityField").html(weatherData.main.humidity + "%");
           $("#pressureField").html(weatherData.main.pressure + " hPa");
-          $("#windSpeed").html(weatherData.main.windSpeed + " km/h");
+          $("#windField").html(weatherData.wind.speed + " km/h");
           $("#cloudField").html(weatherData.weather[0].description);
         } else if (response.status === 404) {
           // City not found handling
@@ -129,7 +129,7 @@
           $("#feelsLikeField").html(weatherData.main.feels_like + (isCelsius ? "°C" : "°F"));
           $("#humidityField").html(weatherData.main.humidity + "%");
           $("#pressureField").html(weatherData.main.pressure + " hPa");
-          $("#windSpeed").html(weatherData.main.windSpeed + (isCelsius ? "km/h" : "mph"));
+          $("#windField").html(weatherData.wind.speed + (isCelsius ? "km/h" : "mph"));
           $("#cloudField").html(weatherData.weather[0].description);
         } else if (response.status === 404) {
           // City not found handling
